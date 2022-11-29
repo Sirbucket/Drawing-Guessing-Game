@@ -20,25 +20,25 @@ export class Canvas {
         this.canvas = this.element.querySelector("#canvas")
         const canvas = this.canvas
         this.ctx = canvas.getContext("2d")
-        canvas.addEventListener("mousemove", () => {
-            const len = this.mousemovecbs.length;
-            for (let i = 0; i<len; ++i) {
-                const c = this.mousemovecbs[i];
-                c();
-            }
-        });
-        canvas.addEventListener("mousedown", () => {
+        canvas.addEventListener("mousedown", (event) => {
             const len = this.mousedowncbs.length;
             for (let i = 0; i<len; ++i) {
                 const c = this.mousedowncbs[i];
-                c();
+                c(event);
             }
         });
-        canvas.addEventListener("mouseup", () => {
+        canvas.addEventListener("mousemove", (event) => {
+            const len = this.mousemovecbs.length;
+            for (let i = 0; i<len; ++i) {
+                const c = this.mousemovecbs[i];
+                c(event);
+            }
+        });
+        canvas.addEventListener("mouseup", (event) => {
             const len = this.mouseupcbs.length;
             for (let i = 0; i<len; ++i) {
-                const c = this.mouseupcbs.length;
-                c();
+                const c = this.mouseupcbs[i];
+                c(event);
             }
         });
     }
