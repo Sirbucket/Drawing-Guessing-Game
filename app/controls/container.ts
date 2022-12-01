@@ -5,7 +5,7 @@ export class Container {
     clone: Node
     cloneContent: HTMLElement
     oldHTML: string;
-    constructor(list, app) {
+    constructor(list) {
         let itemTemplate = document.querySelector("#controls");
         const length: number = list.length;
         this.clone = itemTemplate.cloneNode(true);

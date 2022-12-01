@@ -11,7 +11,7 @@ export class Canvas {
     constructor(w, h) {
         this.w = w; 
         this.h = h;
-        this.element = document.createElement(this.name);
+        this.element = document.createElement("element");
         this.element.innerHTML = `
         <label>
             <canvas id = "canvas" width = ${this.w} height = ${this.h}></canvas>
