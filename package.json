@@ -4,8 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview",
-    "final": "SAVED_OBJECTS=[]"
+    "serve": "vite preview"
   },
   "devDependencies": {
     "vite": "^3.0.4"

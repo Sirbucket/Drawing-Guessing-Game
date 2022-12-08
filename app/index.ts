@@ -9,28 +9,7 @@ const app = document.querySelector("#app");
 let fm = false;
 const utils = new Utils();
 
-function setupMainPage() {
-    for (let i = 0; i < containerList.length; ++i) {
-        app.appendChild(containerList[i].cloneContent);
-    }
-}
-
-function convertToDataURLviaCanvas(url, callback, outputFormat){ //Found this on stack overflow. There is 0 chance I would come up with this on my own.
-    const img = new Image();
-    img.crossOrigin = 'Anonymous';
-    img.onload = function(){
-        let canvas = document.createElement('CANVAS');
-        let ctx = canvas.getContext('2d');
-        let dataURL;
-        canvas.height = this.height;
-        canvas.width = this.width;
-        ctx.drawImage(this, 0, 0);
-        dataURL = canvas.toDataURL(outputFormat);
-        callback(dataURL);
-        canvas = null; 
-    };
-    img.src = url;
-}
+function setupMainPage() {for (let i = 0; i < containerList.length; ++i) app.appendChild(containerList[i].cloneContent);}
 
 //Make canvas for drawing on.
 function makeNewDrawingCanvas(w : string, h : string, color : string, bgcolor : string) {
@@ -81,10 +60,8 @@ function setupDrawingButtons(canvas, ctx, element) {
         });
     }
 
-    for (let i = 0; i < connections.length; ++i) {
-        utils.newButton(connections[i], connectButtons).onClick(() => ctx.lineJoin = connections[i]);
-    }
-
+    for (let i = 0; i < connections.length; ++i) utils.newButton(connections[i], connectButtons).onClick(() => ctx.lineJoin = connections[i]);
+    
     utils.newButton("Back", extraButtons).onClick(() => {
         element.removeChild(canvas.element);
         for (let i = 0; i < wordList.length; ++i) element.removeChild(wordList[i].element);
@@ -107,9 +84,10 @@ function setupDrawingButtons(canvas, ctx, element) {
     utils.newButton("Save", extraButtons).onClick(() => {
         const image = canvas.canvas.toDataURL("image/png")
         addToServerData.push(image)
+        //make this async func then await push to table.
         const link = document.getElementById("link");
         link.setAttribute("download", "CanvasImage.png");
-        link.setAttribute("href", image.replace(/^data:image\/(png|jpg);base64,/, "")); //Save it to the server once we get that introduction, for now saves it to local PC, rather useless atm.
+        link.setAttribute("href", image.replace("image/png", "image/octet-stream")); //Save it to the server once we get that introduction, for now saves it to local PC, rather useless atm.
         link.click();
     });
 
@@ -135,7 +113,22 @@ function mainPageButtons(element) {
         element.appendChild(canvas.element);
     });
 
-    utils.newButton("name2", buttonList);
+    utils.newButton("name2", buttonList).onClick(async () => {
+        console.log('Clicked button, go fetch...');
+
+        try {
+            var response = await fetch(`/.netlify/functions/secret?number=${4}`);
+        } catch (err) {
+            console.log(`${err}`)
+            return;
+        }
+        if (response) {
+            let json = await response.json();
+            console.log(`${json.response}`)
+        } else {
+            console.log("Blank")
+        }   
+    });
     utils.newContainer(buttonList, containerList);
 }
 
