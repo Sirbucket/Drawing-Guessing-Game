@@ -118,7 +118,7 @@ function mainPageButtons(element) {
         console.log('Clicked button, go fetch...');
 
         try {
-            var response = await fetch(`/.netlify/dist/secret?number=${4}`);
+            var response = await fetch(`/.netlify/functions/secret?number=${4}`);
         } catch (err) {
             console.log(`${err}`)
             return;
