@@ -1,6 +1,5 @@
 import { Utils } from './util'
 import {caps, colors, connections} from './drawing'
-import {exports} from './lambda'
 
 const buttonList = [];
 const containerList = [];
