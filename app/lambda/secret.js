@@ -1,6 +1,6 @@
 export const handler = function (event, context, callback) {
     let parameters = event.queryStringParameters;
-    let secret = process.env.STUPID_NUMBER;
+    let secret = process.env.SECRET;
     let number = Number(parameters.number);
     callback(null, {
       statusCode: 200,
