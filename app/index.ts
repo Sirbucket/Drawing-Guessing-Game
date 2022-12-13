@@ -30,7 +30,7 @@ function returnToMainPage(element, canvas, wordList, dbuttonList) {
 }
 
 //Make canvas for drawing on.
-function makeNewDrawingCanvas(w : string, h : string, color : string, bgcolor : string) {
+function makeNewDrawingCanvas(w, h, color, bgcolor) {
     let canvas = utils.newCanvas(w, h);
     canvas.canvas.style.backgroundColor = bgcolor;
     canvas.canvas.style.justifyContent = "auto";
