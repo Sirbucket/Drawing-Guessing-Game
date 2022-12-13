@@ -1,8 +1,8 @@
 export class Canvas {
-    w : number
-    h : number
-    element : HTMLElement
-    canvas : HTMLCanvasElement
+    w
+    h
+    element
+    canvas
     ctx
     mousemovecbs = []
     mousedowncbs = []
