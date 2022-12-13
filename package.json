@@ -12,6 +12,8 @@
     "vite": "^3.0.4"
   },
   "dependencies": {
-    "netlify-lambda": "^2.0.15"
+    "glob-parent": "^6.0.2",
+    "netlify-lambda": "^2.0.15",
+    "request": "^2.88.2"
   }
 }

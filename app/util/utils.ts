@@ -3,10 +3,7 @@ import {Image} from "../guessing"
 import {Button, Typebox, Container, Element} from "../controls"
 
 export class Utils {
-
-    constructor() {
-        
-    }
+    constructor() {}
     
     newButton(name, list) {
         const button = new Button(name)

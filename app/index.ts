@@ -1,5 +1,6 @@
-import { Utils } from './util'
-import {caps, colors, connections} from './drawing'
+import { Utils } from './util';
+import {caps, colors, connections} from './drawing';
+import {Img, wordArray} from './processing/processinput';
 
 const buttonList = [];
 const containerList = [];
@@ -9,7 +10,11 @@ const app = document.querySelector("#app");
 let fm = false;
 const utils = new Utils();
 
-function setupMainPage() {for (let i = 0; i < containerList.length; ++i) app.appendChild(containerList[i].cloneContent);}
+function setupMainPage() {
+    for (let i = 0; i < containerList.length; ++i) {
+        app.appendChild(containerList[i].cloneContent);
+    }
+}
 
 //Make canvas for drawing on.
 function makeNewDrawingCanvas(w : string, h : string, color : string, bgcolor : string) {
@@ -60,13 +65,21 @@ function setupDrawingButtons(canvas, ctx, element) {
         });
     }
 
-    for (let i = 0; i < connections.length; ++i) utils.newButton(connections[i], connectButtons).onClick(() => ctx.lineJoin = connections[i]);
+    for (let i = 0; i < connections.length; ++i) {
+        utils.newButton(connections[i], connectButtons).onClick(() => ctx.lineJoin = connections[i]);
+    }
     
     utils.newButton("Back", extraButtons).onClick(() => {
         element.removeChild(canvas.element);
-        for (let i = 0; i < wordList.length; ++i) element.removeChild(wordList[i].element);
+        for (let i = 0; i < wordList.length; ++i) {
+            element.removeChild(wordList[i].element);
+        }
+
         setupMainPage();
-        for (let i = 0; i < dbuttonList.length; ++i) element.removeChild(dbuttonList[i].cloneContent);
+
+        for (let i = 0; i < dbuttonList.length; ++i) {
+            element.removeChild(dbuttonList[i].cloneContent);
+        }
     });
 
     utils.newButton("Line", extraButtons).onClick(() => {
@@ -81,13 +94,17 @@ function setupDrawingButtons(canvas, ctx, element) {
         ctx.clearRect(0, 0, canvas.canvas.width, canvas.canvas.height);
     });
 
+    let word = wordArray[~~(Math.random() * wordArray.length)]
+
     utils.newButton("Save", extraButtons).onClick(() => {
         const image = canvas.canvas.toDataURL("image/png")
-        addToServerData.push(image)
+
+        let img = new Img(image, word)
+        addToServerData.push(img)
         //make this async func then await push to table.
         const link = document.getElementById("link");
         link.setAttribute("download", "CanvasImage.png");
-        link.setAttribute("href", image.replace("image/png", "image/octet-stream")); //Save it to the server once we get that introduction, for now saves it to local PC, rather useless atm.
+        link.setAttribute("href", image.replace("image/png", "image/octet-stream")); //Save it to the server once we get that introduction, for now saves it to local PC.
         link.click();
     });
 
@@ -96,16 +113,23 @@ function setupDrawingButtons(canvas, ctx, element) {
     utils.newContainer(connectButtons, dbuttonList);
     utils.newContainer(extraButtons, dbuttonList);
 
-    utils.newElement("namedisplay", "insertwordnamehere", wordList)
+    utils.newElement("namedisplay", word, wordList)
 
-    for (let i = 0; i < wordList.length; ++i) element.appendChild(wordList[i].element);
-    for (let i = 0; i < dbuttonList.length; ++i) element.appendChild(dbuttonList[i].cloneContent);
+    for (let i = 0; i < wordList.length; ++i) {
+        element.appendChild(wordList[i].element);
+    }
+
+    for (let i = 0; i < dbuttonList.length; ++i) {
+        element.appendChild(dbuttonList[i].cloneContent);
+    }
 }
 
 function mainPageButtons(element) {
     utils.newButton("Draw", buttonList).onClick(() => {
-        for (let i = 0; i < containerList.length; ++i) element.removeChild(containerList[i].cloneContent);
-        
+        for (let i = 0; i < containerList.length; ++i) {
+            element.removeChild(containerList[i].cloneContent);
+        }
+
         const canvas = makeNewDrawingCanvas("1280", "720", "black", "lightsteelblue");
         const ctx = canvas.ctx;
 
@@ -113,7 +137,7 @@ function mainPageButtons(element) {
         element.appendChild(canvas.element);
     });
 
-    utils.newButton("name2", buttonList).onClick(async () => {
+    utils.newButton("Guess", buttonList).onClick(async () => {
         console.log('Clicked button, go fetch...');
 
         try {
@@ -124,7 +148,7 @@ function mainPageButtons(element) {
         }
         if (response) {
             let json = await response.json();
-            console.log(`${json.response}`);
+            console.log(json);
         } else {
             console.log("Blank");
         }
