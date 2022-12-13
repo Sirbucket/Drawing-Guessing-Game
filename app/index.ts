@@ -4,7 +4,7 @@ import {Img, wordArray} from './processing/processinput';
 
 const buttonList = [];
 const containerList = [];
-const addToServerData = [];
+export const addToServerData = [];
 
 const app = document.querySelector("#app");
 let fm = false;
@@ -13,6 +13,19 @@ const utils = new Utils();
 function setupMainPage() {
     for (let i = 0; i < containerList.length; ++i) {
         app.appendChild(containerList[i].cloneContent);
+    }
+}
+
+function returnToMainPage(element, canvas, wordList, dbuttonList) {
+    element.removeChild(canvas.element);
+    for (let i = 0; i < wordList.length; ++i) {
+        element.removeChild(wordList[i].element);
+    }
+
+    setupMainPage();
+
+    for (let i = 0; i < dbuttonList.length; ++i) {
+        element.removeChild(dbuttonList[i].cloneContent);
     }
 }
 
@@ -70,16 +83,7 @@ function setupDrawingButtons(canvas, ctx, element) {
     }
     
     utils.newButton("Back", extraButtons).onClick(() => {
-        element.removeChild(canvas.element);
-        for (let i = 0; i < wordList.length; ++i) {
-            element.removeChild(wordList[i].element);
-        }
-
-        setupMainPage();
-
-        for (let i = 0; i < dbuttonList.length; ++i) {
-            element.removeChild(dbuttonList[i].cloneContent);
-        }
+        returnToMainPage(element, canvas, wordList, dbuttonList)
     });
 
     utils.newButton("Line", extraButtons).onClick(() => {
@@ -99,13 +103,19 @@ function setupDrawingButtons(canvas, ctx, element) {
     utils.newButton("Save", extraButtons).onClick(() => {
         const image = canvas.canvas.toDataURL("image/png")
 
-        let img = new Img(image, word)
+        let img = new Img(image, word, 0, 0, 0)
         addToServerData.push(img)
-        //make this async func then await push to table.
-        const link = document.getElementById("link");
+
+        let link = document.getElementById("link");
         link.setAttribute("download", "CanvasImage.png");
-        link.setAttribute("href", image.replace("image/png", "image/octet-stream")); //Save it to the server once we get that introduction, for now saves it to local PC.
+        link.setAttribute("href", image.replace("image/png", "image/octet-stream")); //saves it to local PC.
         link.click();
+
+        link = document.getElementById("link");
+        link.setAttribute("href", "./.netlify/functions/setImages"); //Save it to the server
+        link.click();
+
+        returnToMainPage(element, canvas, wordList, dbuttonList)
     });
 
     utils.newContainer(capButtons, dbuttonList);
