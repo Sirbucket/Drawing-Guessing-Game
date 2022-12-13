@@ -119,15 +119,15 @@ function mainPageButtons(element) {
         try {
             var response = await fetch(`/.netlify/functions/secret?number=${4}`);
         } catch (err) {
-            console.log(`${err}`)
+            console.log(`${err}`);
             return;
         }
         if (response) {
             let json = await response.json();
-            console.log(`${json.response}`)
+            console.log(`${json.response}`);
         } else {
-            console.log("Blank")
-        }   
+            console.log("Blank");
+        }
     });
     utils.newContainer(buttonList, containerList);
 }
