@@ -1,10 +1,8 @@
 
 export class Button {
-    name: string = 'div';
-    element: HTMLElement;
-    button: HTMLButtonElement;
+    name = 'div';
     callbacks = [];
-    constructor(html: string) {
+    constructor(html) {
         this.element = document.createElement(this.name);
         this.element.innerHTML = `
             <label>
@@ -22,7 +20,7 @@ export class Button {
         });
     }
 
-    onClick(cb: any) {
+    onClick(cb) {
         this.callbacks.push(cb)
     }
 }

@@ -7,7 +7,7 @@ export class Img {
     reports
     name
 
-    constructor(imageUrl, name, likes?, dislikes?, reports?) {
+    constructor(imageUrl, name, likes, dislikes, reports) {
         this.imageUrl = imageUrl; 
         this.name = name
 
