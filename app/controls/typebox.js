@@ -19,7 +19,7 @@ export class Typebox {
         });
     }
 
-    onInput(cb: any) {
+    onInput(cb) {
         this.callbacks.push(cb)
     }
 }
