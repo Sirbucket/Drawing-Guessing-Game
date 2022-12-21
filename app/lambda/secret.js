@@ -5,7 +5,7 @@ export const handler = function (event, context, callback) {
     callback(null, {
       statusCode: 200,
       body: JSON.stringify({
-        'message':`
+        'message':` secret is ${secret}
         pop I received parameters : ${JSON.stringify(parameters)}.
 And then I did some magic using a SERVER-SIDE SECRET to turn 
 your NUMBER into a secretly magical result: ${number*Number(secret)}
